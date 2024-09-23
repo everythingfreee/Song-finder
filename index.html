@@ -166,7 +166,7 @@
                 const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
                 const formData = new FormData();
                 formData.append('file', audioBlob);
-                formData.append('api_key', 'b6ff4e2e966e554a1aaf6ebed4300b09');
+                formData.append('api_key', '465ad13c600131411f8590dd451ef46d');
 
                 // Send audio file to AudD API
                 try {
@@ -217,22 +217,6 @@
             window.location.reload(); // Refresh the page
         });
     </script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-<script>
-    const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT_ID.appspot.com",
-        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-        appId: "YOUR_APP_ID"
-    };
-
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-</script>
 
 </body>
 </html>
