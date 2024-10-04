@@ -150,129 +150,9 @@
             h1 { font-size: 2em; }
             button { font-size: 14px; padding: 10px 20px; }
         }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: #ecf0f3;
-            transition: background 0.5s ease;
-        }
-
-        .container {
-            width: 350px;
-            padding: 40px;
-            border-radius: 20px;
-            background: #ecf0f3;
-            box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px white;
-            text-align: center;
-        }
-
-        .container h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .input-field {
-            margin: 20px 0;
-            position: relative;
-        }
-
-        .input-field input {
-            width: 100%;
-            padding: 15px;
-            border-radius: 50px;
-            border: none;
-            background: #ecf0f3;
-            box-shadow: inset 5px 5px 10px #cbced1, inset -5px -5px 10px white;
-            outline: none;
-            font-size: 16px;
-            color: #333;
-        }
-
-        .input-field input:focus {
-            box-shadow: inset 5px 5px 10px #b0b3b7, inset -5px -5px 10px #ffffff;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #999;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 15px;
-            border-radius: 50px;
-            border: none;
-            background-color: #333;
-            color: white;
-            cursor: pointer;
-            box-shadow: 3px 3px 8px #b0b3b7, -3px -3px 8px #ffffff;
-            transition: 0.3s;
-        }
-
-        .login-btn:hover {
-            background-color: #555;
-        }
-
-        .dark-mode-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
-        }
-
-        .dark-mode {
-            background: #2c2f33;
-        }
-
-        .dark-mode .container {
-            background: #2c2f33;
-            box-shadow: 13px 13px 20px #1e2023, -13px -13px 20px #3a3d42;
-        }
-
-        .dark-mode input {
-            background: #2c2f33;
-            color: white;
-            box-shadow: inset 5px 5px 10px #1e2023, inset -5px -5px 10px #3a3d42;
-        }
-
-        .dark-mode input:focus {
-            box-shadow: inset 5px 5px 10px #1a1b1f, inset -5px -5px 10px #3e4147;
-        }
-
-        .dark-mode .login-btn {
-            background-color: #1a1a1d;
-            color: white;
-        }
-
-        .dark-mode .login-btn:hover {
-            background-color: #333;
-        }
-        .visit{
-            margin-top: 40%;
-            margin-left: 0;
-            transform: translate(-430%, 10%);
-        }
     </style>
 </head>
 <body>
-    <div class="visit">
-        <h6>Visitors: </h6>
-        <a href='http://www.freevisitorcounters.com'>here</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=a3d4baf7e8ed3f29d3494a0b4b881aba2c8f4366'></script>
-        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1243567/t/3"></script>
-    </div>
     <div class="mode-toggle">
         <i class="fas fa-moon"></i>
     </div>
@@ -294,56 +174,9 @@
             <i class="fas fa-sync-alt"></i> Try Again
         </button>
     </div>
-    <!-- <div class="login" id="login">
-        <button onclick="admin()">Login as Admin</button>
-    </div> -->
-
-    <!-- <div class="login_panel" id="login_panel">
-    <div class="container">
-        <h2>Login</h2>
-        <div class="input-field">
-            <input type="text" placeholder="Username" required id="usrname">
-        </div>
-        <div class="input-field">
-            <input type="password" id="password" placeholder="Password" required>
-            <span class="toggle-password" onclick="togglePassword()">👁️</span>
-        </div>
-        <button class="login-btn" onclick="login()">Login</button>
-    </div>
-
-    <div class="dark-mode-toggle">
-        <label for="dark-mode-checkbox">🌙</label>
-        <input type="checkbox" id="dark-mode-checkbox" onclick="toggleDarkMode()" hidden>
-    </div>
-
-    <script>
-        
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-        }
-
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-        }
-        function login() {
-            let name = document.getElementById("usrname").value;
-            let pass = document.getElementById("password").value; // Changed to 'password'
-
-            if (name === "everythingfree36@gmail.com" && pass === "afghacker1") {
-                
-            } else {
-                alert("Incorrect Username or Password");
-            }
-        }
-    </script>
-
-    </div> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script>
-        const panel = document.getElementById("login_panel").style.display = 'none';
         const resultDiv = document.getElementById('result');
         const startRecordingButton = document.getElementById('startRecording');
         const searchGoogleButton = document.getElementById('searchGoogle');
@@ -354,9 +187,7 @@
         let audioChunks = [];
         let songTitle = '';
         let songArtist = '';
-        function admin(){
-           const panel1 = document.getElementById("login_panel").style.display = "block";
-        }
+
         // Dark mode toggle
         modeToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
