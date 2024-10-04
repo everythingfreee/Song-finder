@@ -3,86 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Song Finder</title>
-    <link rel="icon" href="splash.png">
+    <title>Enhanced Song Finder</title>
+    <link rel="icon" href="https://picsum.photos/32/32?random=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #e0e5ec;
+            --text-color: #333;
+            --shadow-color: #a3b1c6;
+            --highlight-color: #ffffff;
+            --primary-color: #007bff;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a1a;
+            --text-color: #f0f0f0;
+            --shadow-color: #000000;
+            --highlight-color: #2c2c2c;
+            --primary-color: #4da3ff;
+            --success-color: #5cb85c;
+            --warning-color: #f0ad4e;
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
-            overflow: hidden;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
         }
 
         .container {
             text-align: center;
             max-width: 600px;
+            width: 90%;
             margin: 20px;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            background: var(--bg-color);
+            box-shadow: 
+                20px 20px 60px var(--shadow-color),
+                -20px -20px 60px var(--highlight-color);
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px var(--shadow-color);
         }
 
         button {
-            padding: 10px 20px;
+            padding: 12px 24px;
             font-size: 16px;
-            margin-top: 20px;
+            margin: 10px;
             cursor: pointer;
             border: none;
-            border-radius: 5px;
+            border-radius: 50px;
             color: #fff;
-            background: #007bff;
-            transition: background 0.3s ease;
+            background: var(--primary-color);
+            box-shadow: 
+                5px 5px 10px var(--shadow-color),
+                -5px -5px 10px var(--highlight-color);
+            transition: all 0.3s ease;
         }
 
         button:hover {
-            background: #0056b3;
+            transform: translateY(-3px);
+            box-shadow: 
+                8px 8px 15px var(--shadow-color),
+                -8px -8px 15px var(--highlight-color);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: inset 5px 5px 10px var(--shadow-color),
+                        inset -5px -5px 10px var(--highlight-color);
         }
 
         .result {
-            margin-top: 20px;
+            margin-top: 30px;
             font-size: 18px;
-            color: #333;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateY(20px);
         }
 
         .result.show {
             opacity: 1;
+            transform: translateY(0);
         }
 
-        .search-button {
-            display: none;
-            margin-left: 9%;
-            margin-top: 10px;
-            background: #28a745;
-        }
-
-        .search-button:hover {
-            background: #218838;
-        }
-
-        .refresh-button {
-            margin-left: 10%;
-            display: none;
-            margin-top: 10px;
-            background: #ffc107;
-        }
-
-        .refresh-button:hover {
-            background: #e0a800;
-        }
+        .search-button { background: var(--success-color); }
+        .refresh-button { background: var(--warning-color); }
 
         .listening-indicator {
-            margin-top: 20px;
+            margin: 30px auto;
             position: relative;
             width: 100px;
             height: 100px;
-            margin: 0 auto;
             display: none;
         }
 
@@ -93,130 +122,410 @@
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background-color: rgba(0, 123, 255, 0.5);
+            background-color: var(--primary-color);
+            opacity: 0.5;
             animation: pulse 1.5s infinite ease-in-out;
         }
 
-        .circle:nth-child(2) {
-            animation-delay: 0.5s;
-        }
-
-        .circle:nth-child(3) {
-            animation-delay: 1s;
-        }
+        .circle:nth-child(2) { animation-delay: 0.5s; }
+        .circle:nth-child(3) { animation-delay: 1s; }
 
         @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1.5);
-                opacity: 0;
-            }
+            0% { transform: scale(0.8); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 0.3; }
+            100% { transform: scale(0.8); opacity: 0.7; }
+        }
+
+        .mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 20px; }
+            h1 { font-size: 2em; }
+            button { font-size: 14px; padding: 10px 20px; }
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #ecf0f3;
+            transition: background 0.5s ease;
+        }
+
+        .container {
+            width: 350px;
+            padding: 40px;
+            border-radius: 20px;
+            background: #ecf0f3;
+            box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px white;
+            text-align: center;
+        }
+
+        .container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .input-field {
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 50px;
+            border: none;
+            background: #ecf0f3;
+            box-shadow: inset 5px 5px 10px #cbced1, inset -5px -5px 10px white;
+            outline: none;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .input-field input:focus {
+            box-shadow: inset 5px 5px 10px #b0b3b7, inset -5px -5px 10px #ffffff;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: 50px;
+            border: none;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            box-shadow: 3px 3px 8px #b0b3b7, -3px -3px 8px #ffffff;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #555;
+        }
+
+        .dark-mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
+
+        .dark-mode {
+            background: #2c2f33;
+        }
+
+        .dark-mode .container {
+            background: #2c2f33;
+            box-shadow: 13px 13px 20px #1e2023, -13px -13px 20px #3a3d42;
+        }
+
+        .dark-mode input {
+            background: #2c2f33;
+            color: white;
+            box-shadow: inset 5px 5px 10px #1e2023, inset -5px -5px 10px #3a3d42;
+        }
+
+        .dark-mode input:focus {
+            box-shadow: inset 5px 5px 10px #1a1b1f, inset -5px -5px 10px #3e4147;
+        }
+
+        .dark-mode .login-btn {
+            background-color: #1a1a1d;
+            color: white;
+        }
+
+        .dark-mode .login-btn:hover {
+            background-color: #333;
+        }
+        .visit{
+            margin-top: 40%;
+            margin-left: 0;
+            transform: translate(-430%, 10%);
         }
     </style>
 </head>
 <body>
+    <div class="visit">
+        <h6>Visitors: </h6>
+        <a href='http://www.freevisitorcounters.com'>here</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=a3d4baf7e8ed3f29d3494a0b4b881aba2c8f4366'></script>
+        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1243567/t/3"></script>
+    </div>
+    <div class="mode-toggle">
+        <i class="fas fa-moon"></i>
+    </div>
     <div class="container">
-        <h1>Song Finder</h1>
-        <button id="startRecording">Start Recording</button><br><br><br>
+        <h1>Enhanced Song Finder</h1>
+        <button id="startRecording">
+            <i class="fas fa-microphone"></i> Start Recording
+        </button>
         <div id="listeningIndicator" class="listening-indicator">
             <div class="circle"></div>
             <div class="circle"></div>
             <div class="circle"></div>
-        </div><br><br>
-        <div id="result" class="result"></div><br><br><br>
-        <button id="searchGoogle" class="search-button">Search on Google</button>
-        <button id="refreshPage" class="refresh-button">Refresh Page</button>
+        </div>
+        <div id="result" class="result"></div>
+        <button id="searchGoogle" class="search-button" style="display: none;">
+            <i class="fab fa-google"></i> Search on Google
+        </button>
+        <button id="refreshPage" class="refresh-button" style="display: none;">
+            <i class="fas fa-sync-alt"></i> Try Again
+        </button>
+    </div>
+    <!-- <div class="login" id="login">
+        <button onclick="admin()">Login as Admin</button>
+    </div> -->
+
+    <!-- <div class="login_panel" id="login_panel">
+    <div class="container">
+        <h2>Login</h2>
+        <div class="input-field">
+            <input type="text" placeholder="Username" required id="usrname">
+        </div>
+        <div class="input-field">
+            <input type="password" id="password" placeholder="Password" required>
+            <span class="toggle-password" onclick="togglePassword()">👁️</span>
+        </div>
+        <button class="login-btn" onclick="login()">Login</button>
+    </div>
+
+    <div class="dark-mode-toggle">
+        <label for="dark-mode-checkbox">🌙</label>
+        <input type="checkbox" id="dark-mode-checkbox" onclick="toggleDarkMode()" hidden>
     </div>
 
     <script>
+        
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+        function login() {
+            let name = document.getElementById("usrname").value;
+            let pass = document.getElementById("password").value; // Changed to 'password'
+
+            if (name === "everythingfree36@gmail.com" && pass === "afghacker1") {
+                
+            } else {
+                alert("Incorrect Username or Password");
+            }
+        }
+    </script>
+
+    </div> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script>
+        const panel = document.getElementById("login_panel").style.display = 'none';
         const resultDiv = document.getElementById('result');
         const startRecordingButton = document.getElementById('startRecording');
         const searchGoogleButton = document.getElementById('searchGoogle');
         const refreshPageButton = document.getElementById('refreshPage');
         const listeningIndicator = document.getElementById('listeningIndicator');
+        const modeToggle = document.querySelector('.mode-toggle');
         let mediaRecorder;
         let audioChunks = [];
         let songTitle = '';
         let songArtist = '';
+        function admin(){
+           const panel1 = document.getElementById("login_panel").style.display = "block";
+        }
+        // Dark mode toggle
+        modeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            modeToggle.innerHTML = document.body.classList.contains('dark-mode') 
+                ? '<i class="fas fa-sun"></i>' 
+                : '<i class="fas fa-moon"></i>';
+        });
+
+        // Animate.js animations
+        function animateButton(button) {
+            anime({
+                targets: button,
+                scale: [1, 1.1, 1],
+                duration: 300,
+                easing: 'easeInOutQuad'
+            });
+        }
 
         startRecordingButton.addEventListener('click', async () => {
+            animateButton(startRecordingButton);
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                 resultDiv.textContent = 'Your browser does not support audio recording.';
                 return;
             }
 
             resultDiv.textContent = '';
+            resultDiv.classList.remove('show');
             listeningIndicator.style.display = 'block';
+            searchGoogleButton.style.display = 'none';
+            refreshPageButton.style.display = 'none';
 
-            // Start recording
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.start();
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                mediaRecorder.start();
 
-            mediaRecorder.ondataavailable = event => {
-                audioChunks.push(event.data);
-            };
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
 
-            mediaRecorder.onstop = async () => {
-                listeningIndicator.style.display = 'none';
-                
-                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                const formData = new FormData();
-                formData.append('file', audioBlob);
-                formData.append('api_key', '465ad13c600131411f8590dd451ef46d');
+                mediaRecorder.onstop = async () => {
+                    listeningIndicator.style.display = 'none';
+                    
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const formData = new FormData();
+                    formData.append('file', audioBlob);
+                    formData.append('api_key', '465ad13c600131411f8590dd451ef46d');
 
-                // Send audio file to AudD API
-                try {
-                    const response = await fetch('https://api.audd.io/', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    const data = await response.json();
-                    if (data.status === 'success' && data.result) {
-                        const song = data.result;
-                        songTitle = song.title;
-                        songArtist = song.artist;
-                        resultDiv.innerHTML = `
-                            <strong>Title:</strong> ${songTitle} <br>
-                            <strong>Artist:</strong> ${songArtist} <br>
-                            <strong>Album:</strong> ${song.album} <br>
-                            <strong>Release Date:</strong> ${song.release_date} <br>
-                        `;
+                    try {
+                        const response = await fetch('https://api.audd.io/', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const data = await response.json();
+                        if (data.status === 'success' && data.result) {
+                            const song = data.result;
+                            songTitle = song.title;
+                            songArtist = song.artist;
+                            resultDiv.innerHTML = `
+                                <strong>Title:</strong> ${songTitle} <br>
+                                <strong>Artist:</strong> ${songArtist} <br>
+                                <strong>Album:</strong> ${song.album} <br>
+                                <strong>Release Date:</strong> ${song.release_date} <br>
+                            `;
+                            searchGoogleButton.style.display = 'inline-block';
+                        } else {
+                            resultDiv.textContent = 'Song not found. Please try again.';
+                        }
                         resultDiv.classList.add('show');
-                        searchGoogleButton.style.display = 'block'; // Show the search button
-                        refreshPageButton.style.display = 'block'; // Show the refresh button
-                    } else {
-                        resultDiv.textContent = 'Song not found.';
+                        refreshPageButton.style.display = 'inline-block';
+                    } catch (error) {
+                        resultDiv.textContent = 'Error: ' + error.message;
                         resultDiv.classList.add('show');
-                        searchGoogleButton.style.display = 'none'; // Hide the search button
-                        refreshPageButton.style.display = 'block'; // Show the refresh button
+                        refreshPageButton.style.display = 'inline-block';
                     }
-                } catch (error) {
-                    resultDiv.textContent = 'Error: ' + error.message;
-                    resultDiv.classList.add('show');
-                    searchGoogleButton.style.display = 'none'; // Hide the search button
-                    refreshPageButton.style.display = 'block'; // Show the refresh button
-                }
-            };
+                };
 
-            setTimeout(() => {
-                mediaRecorder.stop();
-            }, 10000); // Record for 5 seconds
+                setTimeout(() => {
+                    mediaRecorder.stop();
+                }, 10000); // Record for 10 seconds
+            } catch (error) {
+                resultDiv.textContent = 'Error accessing microphone: ' + error.message;
+                resultDiv.classList.add('show');
+                refreshPageButton.style.display = 'inline-block';
+            }
         });
 
         searchGoogleButton.addEventListener('click', () => {
+            animateButton(searchGoogleButton);
             const query = `${songTitle} ${songArtist}`;
             const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
             window.open(googleSearchUrl, '_blank');
         });
 
         refreshPageButton.addEventListener('click', () => {
-            window.location.reload(); // Refresh the page
+            animateButton(refreshPageButton);
+            location.reload();
         });
-    </script>
 
+        // Background animation
+        const canvas = document.createElement('canvas');
+        document.body.appendChild(canvas);
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';
+
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+
+        function createParticles() {
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].size <= 0.2) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+            if (particles.length < 100) {
+                createParticles();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        createParticles();
+        animateParticles();
+    </script>
 </body>
 </html>
